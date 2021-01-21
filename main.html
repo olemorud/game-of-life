@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script src="main.js"></script>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+		<style>
+			canvas {
+				border:1px solid #7f7f7f;
+				background-color: #ffffff;
+				
+			}
+			.center {
+			  display: block;
+			  margin-left: auto;
+			  margin-right: auto;
+			  width: 50%;
+			}
+		</style>
+	</head>
+	<body onload="startGame()" class="center">
+		<br>
+		<button onclick="togglePause()">Pause/Resume</button>
+		<span id="gameIsPaused">You are paused</span>
+		<br>
+		<button onclick="clearCells()">Clear</button>
+		<br> 
+		<button onclick="toggleDrawMode()">Draw/Erase</button>
+		<span id="drawModeEnabled">You are drawing</span>
+	</body>
+<html>
