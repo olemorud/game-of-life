@@ -1,16 +1,15 @@
 
 //Game options
-var framerate = 100;
-var gColumns = 60;
-var gRows = 140;
-var box_width = 12;
+var framerate 	= 10;
+var gColumns 	= 60;
+var gRows 		= 140;
+var tileWidth 	= 12;
+var paused 		= true;
+var deleteMode 	= false;
 
 //Canvas properties
-var canvas_width  = gRows * box_width;
-var canvas_height = gColumns * box_width;
-var paused = true;
-var deleteMode = false;
-
+var canvas_width  = gRows * tileWidth;
+var canvas_height = gColumns * tileWidth;
 
 
 //Tiles in game of life
@@ -25,9 +24,12 @@ var tiles = {
 		//Create temporary 2D array of new values
 		for(var x=0; x<gRows; x++)
 			for(var y=0; y<gColumns; y++){
-				if(this.getNeighbors(x,y) != 2 && this.getNeighbors(x,y) != 3) this.tempTiles[x][y] = 0; //cell dies if number of neighbors are not 2 or 3
-				else if(this.getNeighbors(x,y) == 3)				 	  	   this.tempTiles[x][y] = 1; //cell is born if there are exactly 3 neighbors
-				else 													 	   this.tempTiles[x][y] = this.tiles[x][y];  //cell remains unchanged otherwise
+				if(![2,3].includes(this.getNeighbors(x,y))
+					this.tempTiles[x][y] = 0; 				//cell dies if number of neighbors are not 2 or 3
+				else if(this.getNeighbors(x,y) == 3)
+					this.tempTiles[x][y] = 1; 				//cell is born if there are exactly 3 neighbors
+				else 
+					this.tempTiles[x][y] = this.tiles[x][y];//cell remains unchanged otherwise
 																						   
 				//Draw new graphics
 				if(this.tempTiles[x][y] == 1){
@@ -74,8 +76,8 @@ function startGame() {
 	myGameArea.canvas.onclick = function(e) { //<< Mouse click event listener
 		//outer edges of tiles is set to 0 to simplify neighbor calculation code
 		//therefore we use x+1 and y+1
-		var x = Math.floor(e.offsetX/box_width);
-		var y = Math.floor(e.offsetY/box_width);
+		var x = Math.floor(e.offsetX/tileWidth);
+		var y = Math.floor(e.offsetY/tileWidth);
 		
 		if(!deleteMode){
 			tiles.tiles[x][y] = 1;
@@ -89,7 +91,6 @@ function startGame() {
 		console.log("coords: ", x, y);
 		console.log("neighbors: ", tiles.getNeighbors(x+1, y+1) );
 	}
-	
 }
 
 //HTML5 canvas
@@ -107,7 +108,7 @@ var myGameArea = {
         document.body.insertBefore(this.canvas, document.body.childNodes[0]);
         this.frameNo = 0;
         this.interval = setInterval(updateGameArea, 1000/framerate);
-		drawGrid(gColumns, gRows, box_width);
+		drawGrid(gColumns, gRows, tileWidth);
     },
 		
     clear : function() {
@@ -119,17 +120,17 @@ var myGameArea = {
 //Fill one tile in grid with color
 function drawCell(x, y) {
 	ctx = myGameArea.context;
-	ctx.fillStyle = "#ff0000"
-	ctx.fillRect(x*box_width, y*box_width, box_width, box_width);
-	drawGrid(tiles.columns, tiles.rows, box_width);
+	ctx.fillStyle = "#ff0000";
+	ctx.fillRect(x*tileWidth, y*tileWidth, tileWidth, tileWidth);
+	drawGrid(tiles.columns, tiles.rows, tileWidth);
 }
 
 //Remove graphics from tile in grid
 function unDrawCell(x, y) {
 	ctx = myGameArea.context;
-	ctx.fillStyle = "#ffffff"
-	ctx.clearRect(x*box_width, y*box_width, box_width, box_width);
-	drawGrid(tiles.columns, tiles.rows, box_width);
+	ctx.fillStyle = "#ffffff";
+	ctx.clearRect(x*tileWidth, y*tileWidth, tileWidth, tileWidth);
+	drawGrid(tiles.columns, tiles.rows, tileWidth);
 }
 
 //Display grid on screen
