@@ -11,7 +11,7 @@ var deleteMode 	= false;
 var canvas_width  = gRows * tileWidth;
 var canvas_height = gColumns * tileWidth;
 
-
+ 
 //Tiles in game of life
 var tiles = {
 	tiles     : [...Array(gRows)].map( x => Array(gColumns).fill(0) ),	 //<< x*y array with all values set to zero
