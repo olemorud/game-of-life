@@ -1,6 +1,6 @@
 
 //Game options
-var framerate 	= 10;
+var framerate 	= 150;
 var gColumns 	= 60;
 var gRows 		= 140;
 var tileWidth 	= 12;
@@ -24,12 +24,9 @@ var tiles = {
 		//Create temporary 2D array of new values
 		for(var x=0; x<gRows; x++)
 			for(var y=0; y<gColumns; y++){
-				if(![2,3].includes(this.getNeighbors(x,y))
-					this.tempTiles[x][y] = 0; 				//cell dies if number of neighbors are not 2 or 3
-				else if(this.getNeighbors(x,y) == 3)
-					this.tempTiles[x][y] = 1; 				//cell is born if there are exactly 3 neighbors
-				else 
-					this.tempTiles[x][y] = this.tiles[x][y];//cell remains unchanged otherwise
+				if(![2,3].includes(this.getNeighbors(x,y))){ this.tempTiles[x][y] = 0; 	}				//cell dies if number of neighbors are not 2 or 3
+				else if(this.getNeighbors(x,y) == 3)	   { this.tempTiles[x][y] = 1; 	}				//cell is born if there are exactly 3 neighbors
+				else 									   { this.tempTiles[x][y] = this.tiles[x][y]; }	//cell remains unchanged otherwise
 																						   
 				//Draw new graphics
 				if(this.tempTiles[x][y] == 1){
@@ -68,6 +65,7 @@ var tiles = {
 		this.tiles = [...Array(gRows)].map( x => Array(gColumns).fill(0) );	 //<< x*y array with all values set to zero
 	}
 }
+
 
 //Initializes canvas and event listeners (starts when HTML has loaded)
 function startGame() {
